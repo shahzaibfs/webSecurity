@@ -2,6 +2,7 @@ package com.example.securitypract.Controller;
 
 
 import com.example.securitypract.Entity.Student;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,18 @@ import java.util.List;
 @RequestMapping("/api/v1/student")
 public class StudentController {
 
+
+
     private List<Student> students = new ArrayList<>(Arrays.asList(
             new Student(1,"shahzaib"),
             new Student(4,"ali"),
             new Student(10,"akram ali ")
     ));
 
+
+
+    // doing method level security
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @GetMapping(path = "{studentId}")
     Student getStudents(@PathVariable("studentId") Integer studentId){
 

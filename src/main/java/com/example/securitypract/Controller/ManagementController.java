@@ -2,6 +2,7 @@ package com.example.securitypract.Controller;
 
 
 import com.example.securitypract.Entity.Student;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
@@ -19,11 +20,14 @@ public class ManagementController {
             new Student(10,"akram ali ")
     ));
 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TRAINEE')")
     @GetMapping("/")
     public List<Student> getAllStudents(){
         return students;
     }
 
+    @PreAuthorize("hasAuthority('student:write')")
     @PostMapping("/")
     public String  addStudent(@RequestBody Student s){
         students.add(s);
